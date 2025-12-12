@@ -6,6 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+
 find_package(Qt6 COMPONENTS
         Core
         Gui
@@ -14,8 +15,14 @@ find_package(Qt6 COMPONENTS
         WebEngineCore
         REQUIRED)
 
-add_executable(CBrowser main.cpp)
-target_link_libraries(CBrowser
+add_executable(CBrowser
+        main.cpp
+        mainWindow.h
+        mainWindow.cpp
+        bookMarks.cpp
+        bookMarks.h)
+
+target_link_libraries(CBrowser PRIVATE
         Qt6::Core
         Qt6::Gui
         Qt6::Widgets
