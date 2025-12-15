@@ -13,6 +13,8 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
+
+
 private:
     void setupUI();
     void setupConnections();

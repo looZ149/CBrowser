@@ -1,10 +1,13 @@
 #include "mainWindow.h"
+#include "bookMarks.h"
 #include <QWebEngineView>
 #include <QToolBar>
 #include <QStatusBar>
 #include <QLineEdit>
 #include <QMenuBar>
 #include <QApplication>
+#include <QDockWidget>
+#include <string>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setWindowTitle("CBrowser");
@@ -22,13 +25,25 @@ void MainWindow::setupUI() {
     setCentralWidget(m_view);
     m_view->load(QUrl("https://www.jofacademy.eu"));
 
+    //Sidebar
+    auto* sideBar = new QDockWidget(m_view);
+    sideBar->setDockLocation(Qt::LeftDockWidgetArea);
+    sideBar->setWindowTitle("Side bar");
+    addDockWidget(Qt::LeftDockWidgetArea, sideBar);
+
+
     //Menu Bar
     auto* fileMenu = menuBar()->addMenu("&Browser");
-    auto* bookMarks = fileMenu->addMenu("Bookmarks");
+    auto* bookMarks = fileMenu->addAction("Bookmarks");
     auto* quitAction = fileMenu->addAction("Quit");
 
     //We can't access "app" here directly, qApp works, or just close the Window works probably too?
     connect(quitAction, &QAction::triggered, qApp, &QApplication::quit);
+    connect(bookMarks, &QAction::triggered, [this]()
+    {
+        std::string url = m_urlBar->text().toStdString();
+        CBrowserBookMarks::SafeBookMark(url);
+    });
 
     // Navbar
     auto* navBar = addToolBar("Navigation");
@@ -49,7 +64,6 @@ void MainWindow::setupUI() {
     connect(m_reloadAction, &QAction::triggered, m_view, &QWebEngineView::reload);
 
     statusBar()->showMessage("Ready");
-
 
 }
 
