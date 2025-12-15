@@ -1,7 +1,9 @@
 #ifndef CBROWSER_BOOKMARKS_H
 #define CBROWSER_BOOKMARKS_H
-#include <qnamespace.h>
 #include <string>
+#if defined(_WIN32)
+#include <Windows.h>
+#endif
 
 class CBrowserBookMarks
 {
